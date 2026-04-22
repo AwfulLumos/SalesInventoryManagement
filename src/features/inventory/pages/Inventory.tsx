@@ -26,81 +26,81 @@ export default function Inventory() {
   }).length;
 
   const getStockStatus = (product: typeof products[0]) => {
-    if (product.stock === 0) return { text: 'Out of Stock', color: 'text-red-600 bg-red-50' };
-    if (product.stock <= product.lowStockThreshold) return { text: 'Low Stock', color: 'text-orange-600 bg-orange-50' };
-    return { text: 'In Stock', color: 'text-green-600 bg-green-50' };
+    if (product.stock === 0) return { text: 'Out of Stock', color: 'text-destructive bg-destructive/10' };
+    if (product.stock <= product.lowStockThreshold) return { text: 'Low Stock', color: 'text-primary bg-primary/10' };
+    return { text: 'In Stock', color: 'text-secondary-foreground bg-secondary/40' };
   };
 
   const getExpiryStatus = (expiryDate?: string) => {
     if (!expiryDate) return null;
     const daysUntilExpiry = Math.floor((new Date(expiryDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
-    if (daysUntilExpiry < 0) return { text: 'Expired', color: 'text-red-600' };
-    if (daysUntilExpiry <= 30) return { text: `Expires in ${daysUntilExpiry}d`, color: 'text-red-600' };
-    if (daysUntilExpiry <= 60) return { text: `Expires in ${daysUntilExpiry}d`, color: 'text-orange-600' };
-    return { text: `Expires in ${daysUntilExpiry}d`, color: 'text-gray-600' };
+    if (daysUntilExpiry < 0) return { text: 'Expired', color: 'text-destructive' };
+    if (daysUntilExpiry <= 30) return { text: `Expires in ${daysUntilExpiry}d`, color: 'text-destructive' };
+    if (daysUntilExpiry <= 60) return { text: `Expires in ${daysUntilExpiry}d`, color: 'text-primary' };
+    return { text: `Expires in ${daysUntilExpiry}d`, color: 'text-muted-foreground' };
   };
 
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white rounded-lg shadow p-4">
+        <div className="bg-card rounded-lg shadow p-4 border border-border/60">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Total Products</p>
+              <p className="text-sm text-muted-foreground">Total Products</p>
               <p className="text-2xl font-bold">{products.length}</p>
             </div>
-            <Package className="text-blue-600" size={32} />
+            <Package className="text-primary" size={32} />
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow p-4">
+        <div className="bg-card rounded-lg shadow p-4 border border-border/60">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Low Stock</p>
-              <p className="text-2xl font-bold text-orange-600">{lowStockCount}</p>
+              <p className="text-sm text-muted-foreground">Low Stock</p>
+              <p className="text-2xl font-bold text-primary">{lowStockCount}</p>
             </div>
-            <AlertTriangle className="text-orange-600" size={32} />
+            <AlertTriangle className="text-primary" size={32} />
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow p-4">
+        <div className="bg-card rounded-lg shadow p-4 border border-border/60">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Out of Stock</p>
-              <p className="text-2xl font-bold text-red-600">{outOfStockCount}</p>
+              <p className="text-sm text-muted-foreground">Out of Stock</p>
+              <p className="text-2xl font-bold text-destructive">{outOfStockCount}</p>
             </div>
-            <TrendingDown className="text-red-600" size={32} />
+            <TrendingDown className="text-destructive" size={32} />
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow p-4">
+        <div className="bg-card rounded-lg shadow p-4 border border-border/60">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Expiring Soon</p>
-              <p className="text-2xl font-bold text-orange-600">{expiringCount}</p>
+              <p className="text-sm text-muted-foreground">Expiring Soon</p>
+              <p className="text-2xl font-bold text-primary">{expiringCount}</p>
             </div>
-            <Calendar className="text-orange-600" size={32} />
+            <Calendar className="text-primary" size={32} />
           </div>
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow p-6">
+      <div className="bg-card rounded-lg shadow p-6 border border-border/60">
         <div className="flex flex-col md:flex-row gap-4 mb-6">
           <div className="flex-1 relative">
-            <Search className="absolute left-3 top-3 text-gray-400" size={20} />
+            <Search className="absolute left-3 top-3 text-muted-foreground/60" size={20} />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by name or barcode..."
-              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+              className="w-full pl-10 pr-4 py-2 border border-border rounded-lg bg-input-background text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-primary/40 focus:border-primary/40 focus:outline-none"
             />
           </div>
 
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            className="px-4 py-2 border border-border rounded-lg bg-input-background text-foreground focus:ring-2 focus:ring-primary/40 focus:border-primary/40 focus:outline-none"
           >
             <option value="all">All Categories</option>
             <option value="food">Food</option>
@@ -114,7 +114,7 @@ export default function Inventory() {
           <select
             value={stockFilter}
             onChange={(e) => setStockFilter(e.target.value)}
-            className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            className="px-4 py-2 border border-border rounded-lg bg-input-background text-foreground focus:ring-2 focus:ring-primary/40 focus:border-primary/40 focus:outline-none"
           >
             <option value="all">All Stock Levels</option>
             <option value="low">Low Stock Only</option>
@@ -124,7 +124,7 @@ export default function Inventory() {
 
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50">
+            <thead className="bg-muted/40">
               <tr>
                 <th className="px-4 py-3 text-left text-sm font-semibold">Barcode</th>
                 <th className="px-4 py-3 text-left text-sm font-semibold">Product Name</th>
@@ -141,16 +141,16 @@ export default function Inventory() {
                 const stockStatus = getStockStatus(product);
                 const expiryStatus = getExpiryStatus(product.expiryDate);
                 return (
-                  <tr key={product.id} className="hover:bg-gray-50">
+                  <tr key={product.id} className="hover:bg-muted/40">
                     <td className="px-4 py-3 text-sm font-mono">{product.barcode}</td>
                     <td className="px-4 py-3 text-sm font-medium">{product.name}</td>
                     <td className="px-4 py-3 text-sm capitalize">{product.category}</td>
                     <td className="px-4 py-3 text-sm font-semibold">₱{product.price}</td>
                     <td className="px-4 py-3 text-sm">
-                      <span className={product.stock <= product.lowStockThreshold ? 'font-bold text-orange-600' : ''}>
+                      <span className={product.stock <= product.lowStockThreshold ? 'font-bold text-primary' : ''}>
                         {product.stock}
                       </span>
-                      <span className="text-gray-400 text-xs"> / {product.lowStockThreshold}</span>
+                      <span className="text-muted-foreground/60 text-xs"> / {product.lowStockThreshold}</span>
                     </td>
                     <td className="px-4 py-3 text-sm">
                       <span className={`px-2 py-1 rounded-full text-xs font-medium ${stockStatus.color}`}>
@@ -161,10 +161,10 @@ export default function Inventory() {
                       {expiryStatus ? (
                         <span className={`font-medium ${expiryStatus.color}`}>{expiryStatus.text}</span>
                       ) : (
-                        <span className="text-gray-400">-</span>
+                        <span className="text-muted-foreground/60">-</span>
                       )}
                     </td>
-                    <td className="px-4 py-3 text-sm text-gray-600">{product.supplier}</td>
+                    <td className="px-4 py-3 text-sm text-muted-foreground">{product.supplier}</td>
                   </tr>
                 );
               })}
@@ -173,7 +173,7 @@ export default function Inventory() {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow p-6">
+      <div className="bg-card rounded-lg shadow p-6 border border-border/60">
         <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
           <FileText size={20} /> Purchase Orders
         </h3>
@@ -183,21 +183,21 @@ export default function Inventory() {
               <div className="flex justify-between items-start mb-2">
                 <div>
                   <p className="font-semibold">{po.id}</p>
-                  <p className="text-sm text-gray-600">{po.supplier}</p>
+                  <p className="text-sm text-muted-foreground">{po.supplier}</p>
                 </div>
                 <div className="text-right">
                   <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                    po.status === 'received' ? 'bg-green-50 text-green-700' :
-                    po.status === 'pending' ? 'bg-yellow-50 text-yellow-700' :
-                    'bg-red-50 text-red-700'
+                    po.status === 'received' ? 'bg-secondary/40 text-secondary-foreground' :
+                    po.status === 'pending' ? 'bg-primary/10 text-primary' :
+                    'bg-destructive/10 text-destructive'
                   }`}>
                     {po.status.toUpperCase()}
                   </span>
-                  <p className="text-sm text-gray-600 mt-1">{po.date}</p>
+                  <p className="text-sm text-muted-foreground mt-1">{po.date}</p>
                 </div>
               </div>
               <div className="border-t pt-2 mt-2">
-                <p className="text-sm text-gray-600 mb-1">Items:</p>
+                <p className="text-sm text-muted-foreground mb-1">Items:</p>
                 {po.items.map((item, idx) => (
                   <p key={idx} className="text-sm">
                     {item.productName} - Qty: {item.quantity} @ ₱{item.cost}

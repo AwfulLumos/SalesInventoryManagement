@@ -62,7 +62,13 @@ export default function Reports() {
     { date: 'Apr 22', sales: 7100 },
   ];
 
-  const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899'];
+  const COLORS = [
+    'var(--color-chart-1)',
+    'var(--color-chart-2)',
+    'var(--color-chart-3)',
+    'var(--color-chart-4)',
+    'var(--color-chart-5)',
+  ];
 
   const totalRevenue = Object.values(salesByProduct).reduce((sum, p) => sum + p.revenue, 0);
   const totalItemsSold = Object.values(salesByProduct).reduce((sum, p) => sum + p.quantity, 0);
@@ -70,51 +76,51 @@ export default function Reports() {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white rounded-lg shadow p-4">
+        <div className="bg-card rounded-lg shadow p-4 border border-border/60">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Total Revenue</p>
+              <p className="text-sm text-muted-foreground">Total Revenue</p>
               <p className="text-2xl font-bold">₱{totalRevenue.toFixed(0)}</p>
             </div>
-            <DollarSign className="text-green-600" size={32} />
+            <DollarSign className="text-primary" size={32} />
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow p-4">
+        <div className="bg-card rounded-lg shadow p-4 border border-border/60">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Items Sold</p>
+              <p className="text-sm text-muted-foreground">Items Sold</p>
               <p className="text-2xl font-bold">{totalItemsSold}</p>
             </div>
-            <Package className="text-blue-600" size={32} />
+            <Package className="text-primary" size={32} />
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow p-4">
+        <div className="bg-card rounded-lg shadow p-4 border border-border/60">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Avg Transaction</p>
+              <p className="text-sm text-muted-foreground">Avg Transaction</p>
               <p className="text-2xl font-bold">
                 ₱{transactions.length > 0 ? (transactions.reduce((sum, t) => sum + t.total, 0) / transactions.length).toFixed(0) : 0}
               </p>
             </div>
-            <TrendingUp className="text-purple-600" size={32} />
+            <TrendingUp className="text-primary" size={32} />
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow p-4">
+        <div className="bg-card rounded-lg shadow p-4 border border-border/60">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Product Categories</p>
+              <p className="text-sm text-muted-foreground">Product Categories</p>
               <p className="text-2xl font-bold">{Object.keys(salesByCategory).length}</p>
             </div>
-            <Package className="text-orange-600" size={32} />
+            <Package className="text-primary" size={32} />
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-lg shadow p-6">
+        <div className="bg-card rounded-lg shadow p-6 border border-border/60">
           <h3 className="font-semibold text-lg mb-4">Sales Trend (Last 8 Days)</h3>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={salesTrendData}>
@@ -123,12 +129,12 @@ export default function Reports() {
               <YAxis />
               <Tooltip />
               <Legend />
-              <Line type="monotone" dataKey="sales" stroke="#3B82F6" strokeWidth={2} />
+              <Line type="monotone" dataKey="sales" stroke="var(--color-chart-1)" strokeWidth={2} />
             </LineChart>
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-white rounded-lg shadow p-6">
+        <div className="bg-card rounded-lg shadow p-6 border border-border/60">
           <h3 className="font-semibold text-lg mb-4">Sales by Category</h3>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
@@ -153,9 +159,9 @@ export default function Reports() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-lg shadow p-6">
+        <div className="bg-card rounded-lg shadow p-6 border border-border/60">
           <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
-            <TrendingUp className="text-green-600" /> Top Selling Products
+            <TrendingUp className="text-primary" /> Top Selling Products
           </h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={topSellingProducts} layout="vertical">
@@ -163,7 +169,7 @@ export default function Reports() {
               <XAxis type="number" />
               <YAxis dataKey="name" type="category" width={150} />
               <Tooltip />
-              <Bar dataKey="quantity" fill="#10B981" />
+              <Bar dataKey="quantity" fill="var(--color-chart-2)" />
             </BarChart>
           </ResponsiveContainer>
           <div className="mt-4 space-y-2">
@@ -171,17 +177,17 @@ export default function Reports() {
               <div key={product.name} className="flex justify-between items-center text-sm">
                 <span className="font-medium">{product.name}</span>
                 <div className="text-right">
-                  <span className="font-bold text-green-600">{product.quantity} sold</span>
-                  <span className="text-gray-500 ml-2">₱{product.revenue.toFixed(0)}</span>
+                  <span className="font-bold text-primary">{product.quantity} sold</span>
+                  <span className="text-muted-foreground/80 ml-2">₱{product.revenue.toFixed(0)}</span>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow p-6">
+        <div className="bg-card rounded-lg shadow p-6 border border-border/60">
           <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
-            <TrendingDown className="text-orange-600" /> Slow Moving Products
+            <TrendingDown className="text-primary" /> Slow Moving Products
           </h3>
           <div className="space-y-3">
             {slowMovingProducts.length > 0 ? (
@@ -190,27 +196,27 @@ export default function Reports() {
                   <div className="flex justify-between items-start">
                     <div>
                       <p className="font-semibold text-sm">{product.name}</p>
-                      <p className="text-xs text-gray-600 capitalize">{product.category}</p>
+                      <p className="text-xs text-muted-foreground capitalize">{product.category}</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-bold text-orange-600">{product.sold} sold</p>
-                      <p className="text-xs text-gray-500">Stock: {product.stock}</p>
+                      <p className="text-sm font-bold text-primary">{product.sold} sold</p>
+                      <p className="text-xs text-muted-foreground/80">Stock: {product.stock}</p>
                     </div>
                   </div>
                   <div className="mt-2 flex justify-between items-center text-xs">
-                    <span className="text-gray-600">Price: ₱{product.price}</span>
-                    <span className="px-2 py-1 bg-orange-50 text-orange-600 rounded">Low Sales</span>
+                    <span className="text-muted-foreground">Price: ₱{product.price}</span>
+                    <span className="px-2 py-1 bg-primary/10 text-primary rounded">Low Sales</span>
                   </div>
                 </div>
               ))
             ) : (
-              <p className="text-gray-500 text-center py-8">All products have good sales volume</p>
+              <p className="text-muted-foreground/80 text-center py-8">All products have good sales volume</p>
             )}
           </div>
 
-          <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-            <p className="font-semibold text-sm text-yellow-800 mb-2">Recommendations:</p>
-            <ul className="text-xs text-yellow-700 space-y-1">
+          <div className="mt-6 p-4 bg-secondary/30 border border-secondary/50 rounded-lg">
+            <p className="font-semibold text-sm text-secondary-foreground mb-2">Recommendations:</p>
+            <ul className="text-xs text-secondary-foreground space-y-1">
               <li>• Consider promotional discounts for slow-moving items</li>
               <li>• Review pricing strategy for these products</li>
               <li>• Bundle with popular items to increase sales</li>

@@ -2,80 +2,86 @@
 
 :root {
   --font-size: 16px;
-  --background: #ffffff;
-  --foreground: oklch(0.145 0 0);
-  --card: #ffffff;
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: #030213;
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.95 0.0058 264.53);
-  --secondary-foreground: #030213;
-  --muted: #ececf0;
-  --muted-foreground: #717182;
-  --accent: #e9ebef;
-  --accent-foreground: #030213;
-  --destructive: #d4183d;
-  --destructive-foreground: #ffffff;
-  --border: rgba(0, 0, 0, 0.1);
+  --font-sans: "Open Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  --palette-cream: #fffdf1;
+  --palette-sand: #ffce99;
+  --palette-orange: #ff9644;
+  --palette-brown: #562f00;
+  --background: var(--palette-cream);
+  --foreground: var(--palette-brown);
+  --card: var(--palette-cream);
+  --card-foreground: var(--palette-brown);
+  --popover: var(--palette-cream);
+  --popover-foreground: var(--palette-brown);
+  --primary: var(--palette-orange);
+  --primary-foreground: var(--palette-cream);
+  --secondary: var(--palette-sand);
+  --secondary-foreground: var(--palette-brown);
+  --muted: rgba(86, 47, 0, 0.08);
+  --muted-foreground: rgba(86, 47, 0, 0.6);
+  --accent: var(--palette-sand);
+  --accent-foreground: var(--palette-brown);
+  --destructive: var(--palette-orange);
+  --destructive-foreground: var(--palette-cream);
+  --border: rgba(86, 47, 0, 0.16);
   --input: transparent;
-  --input-background: #f3f3f5;
-  --switch-background: #cbced4;
+  --input-background: rgba(255, 206, 153, 0.35);
+  --switch-background: rgba(255, 206, 153, 0.7);
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  --ring: rgba(255, 150, 68, 0.55);
+  --chart-1: var(--palette-orange);
+  --chart-2: var(--palette-sand);
+  --chart-3: var(--palette-brown);
+  --chart-4: rgba(255, 150, 68, 0.7);
+  --chart-5: rgba(255, 206, 153, 0.8);
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: #030213;
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar: var(--palette-cream);
+  --sidebar-foreground: var(--palette-brown);
+  --sidebar-primary: var(--palette-orange);
+  --sidebar-primary-foreground: var(--palette-cream);
+  --sidebar-accent: var(--palette-sand);
+  --sidebar-accent-foreground: var(--palette-brown);
+  --sidebar-border: rgba(86, 47, 0, 0.15);
+  --sidebar-ring: rgba(255, 150, 68, 0.5);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.145 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.145 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.985 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.269 0 0);
-  --input: oklch(0.269 0 0);
-  --ring: oklch(0.439 0 0);
+  --background: var(--palette-brown);
+  --foreground: var(--palette-cream);
+  --card: var(--palette-brown);
+  --card-foreground: var(--palette-cream);
+  --popover: var(--palette-brown);
+  --popover-foreground: var(--palette-cream);
+  --primary: var(--palette-sand);
+  --primary-foreground: var(--palette-brown);
+  --secondary: var(--palette-orange);
+  --secondary-foreground: var(--palette-brown);
+  --muted: rgba(255, 253, 241, 0.12);
+  --muted-foreground: rgba(255, 253, 241, 0.72);
+  --accent: var(--palette-orange);
+  --accent-foreground: var(--palette-brown);
+  --destructive: var(--palette-sand);
+  --destructive-foreground: var(--palette-brown);
+  --border: rgba(255, 253, 241, 0.18);
+  --input: rgba(255, 253, 241, 0.1);
+  --ring: rgba(255, 206, 153, 0.6);
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.269 0 0);
-  --sidebar-ring: oklch(0.439 0 0);
+  --chart-1: var(--palette-sand);
+  --chart-2: var(--palette-orange);
+  --chart-3: var(--palette-cream);
+  --chart-4: rgba(255, 206, 153, 0.75);
+  --chart-5: rgba(255, 150, 68, 0.8);
+  --sidebar: var(--palette-brown);
+  --sidebar-foreground: var(--palette-cream);
+  --sidebar-primary: var(--palette-sand);
+  --sidebar-primary-foreground: var(--palette-brown);
+  --sidebar-accent: var(--palette-orange);
+  --sidebar-accent-foreground: var(--palette-brown);
+  --sidebar-border: rgba(255, 253, 241, 0.18);
+  --sidebar-ring: rgba(255, 206, 153, 0.5);
 }
 
 @theme inline {
@@ -126,6 +132,7 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-sans);
   }
 
   /**
@@ -141,41 +148,134 @@
     font-size: var(--text-2xl);
     font-weight: var(--font-weight-medium);
     line-height: 1.5;
+    font-family: var(--font-display);
   }
 
   h2 {
     font-size: var(--text-xl);
     font-weight: var(--font-weight-medium);
     line-height: 1.5;
+    font-family: var(--font-display);
   }
 
   h3 {
     font-size: var(--text-lg);
     font-weight: var(--font-weight-medium);
     line-height: 1.5;
+    font-family: var(--font-display);
   }
 
   h4 {
     font-size: var(--text-base);
     font-weight: var(--font-weight-medium);
     line-height: 1.5;
+    font-family: var(--font-display);
   }
 
   label {
     font-size: var(--text-base);
     font-weight: var(--font-weight-medium);
     line-height: 1.5;
+    font-family: var(--font-sans);
   }
 
   button {
     font-size: var(--text-base);
     font-weight: var(--font-weight-medium);
     line-height: 1.5;
+    font-family: var(--font-sans);
   }
 
   input {
     font-size: var(--text-base);
     font-weight: var(--font-weight-normal);
     line-height: 1.5;
+    font-family: var(--font-sans);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float-soft {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes glow-warm {
+  0% {
+    box-shadow: 0 0 0 rgba(255, 150, 68, 0);
+  }
+
+  50% {
+    box-shadow: 0 0 24px rgba(255, 150, 68, 0.35);
+  }
+
+  100% {
+    box-shadow: 0 0 0 rgba(255, 150, 68, 0);
+  }
+}
+
+@keyframes loading-bar {
+  0% {
+    transform: translateX(-130%);
+  }
+
+  55% {
+    transform: translateX(15%);
+  }
+
+  100% {
+    transform: translateX(260%);
+  }
+}
+
+@layer utilities {
+  .animate-fade-up {
+    animation: fade-up 420ms ease-out both;
+  }
+
+  .animate-float-slow {
+    animation: float-soft 8s ease-in-out infinite;
+  }
+
+  .animate-float-slower {
+    animation: float-soft 12s ease-in-out infinite;
+  }
+
+  .animate-glow-warm {
+    animation: glow-warm 2.6s ease-in-out infinite;
+  }
+
+  .animate-loading-bar {
+    animation: loading-bar 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up,
+  .animate-float-slow,
+  .animate-float-slower,
+  .animate-glow-warm,
+  .animate-loading-bar {
+    animation: none !important;
   }
 }

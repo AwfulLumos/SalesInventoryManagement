@@ -94,61 +94,61 @@ export default function POS() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-full">
       <div className="lg:col-span-2 space-y-4">
-        <div className="bg-white rounded-lg shadow p-4">
+        <div className="bg-card rounded-lg shadow p-4 border border-border/60">
           <form onSubmit={handleBarcodeSubmit} className="flex gap-2 mb-4">
             <div className="flex-1 relative">
-              <Scan className="absolute left-3 top-3 text-gray-400" size={20} />
+              <Scan className="absolute left-3 top-3 text-muted-foreground/60" size={20} />
               <input
                 ref={barcodeInputRef}
                 type="text"
                 value={barcode}
                 onChange={(e) => setBarcode(e.target.value)}
                 placeholder="Scan or enter barcode..."
-                className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 border border-border rounded-lg bg-input-background text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-primary/40 focus:border-primary/40 focus:outline-none"
               />
             </div>
-            <button type="submit" className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            <button type="submit" className="px-6 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90">
               Add
             </button>
           </form>
 
           <div className="relative">
-            <Search className="absolute left-3 top-3 text-gray-400" size={20} />
+            <Search className="absolute left-3 top-3 text-muted-foreground/60" size={20} />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search products..."
-              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-border rounded-lg bg-input-background text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-primary/40 focus:border-primary/40 focus:outline-none"
             />
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow p-4 max-h-[500px] overflow-y-auto">
+        <div className="bg-card rounded-lg shadow p-4 max-h-[500px] overflow-y-auto border border-border/60">
           <h3 className="font-semibold mb-4">Quick Select Products</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {filteredProducts.slice(0, 12).map((product) => (
               <button
                 key={product.id}
                 onClick={() => addToCart(product)}
-                className="p-3 border rounded-lg hover:bg-blue-50 hover:border-blue-500 transition-colors text-left"
+                className="p-3 border border-border rounded-lg hover:bg-primary/10 hover:border-primary/40 transition-colors text-left"
               >
                 <div className="font-semibold text-sm line-clamp-2">{product.name}</div>
-                <div className="text-blue-600 font-bold mt-1">₱{product.price}</div>
-                <div className="text-xs text-gray-500 mt-1">Stock: {product.stock}</div>
+                <div className="text-primary font-bold mt-1">₱{product.price}</div>
+                <div className="text-xs text-muted-foreground/80 mt-1">Stock: {product.stock}</div>
               </button>
             ))}
           </div>
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow p-4 flex flex-col h-fit lg:sticky lg:top-6">
+      <div className="bg-card rounded-lg shadow p-4 flex flex-col h-fit lg:sticky lg:top-6 border border-border/60">
         <div className="mb-4">
           <label className="block text-sm font-medium mb-2">Customer (Optional)</label>
           <select
             value={selectedCustomer?.id || ''}
             onChange={(e) => setSelectedCustomer(customers.find(c => c.id === e.target.value) || null)}
-            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-border rounded-lg bg-input-background text-foreground focus:ring-2 focus:ring-primary/40 focus:border-primary/40 focus:outline-none"
           >
             <option value="">Walk-in Customer</option>
             {customers.map(customer => (
@@ -158,7 +158,7 @@ export default function POS() {
             ))}
           </select>
           {selectedCustomer && (
-            <div className="mt-2 p-2 bg-yellow-50 rounded text-sm">
+            <div className="mt-2 p-2 bg-secondary/30 text-secondary-foreground rounded text-sm">
               Loyalty Points: <strong>{selectedCustomer.loyaltyPoints}</strong>
             </div>
           )}
@@ -168,14 +168,14 @@ export default function POS() {
           <div className="flex justify-between items-center mb-3">
             <h3 className="font-semibold">Cart Items</h3>
             {cart.length > 0 && (
-              <button onClick={clearCart} className="text-red-600 hover:text-red-700 text-sm flex items-center gap-1">
+              <button onClick={clearCart} className="text-destructive hover:text-destructive/80 text-sm flex items-center gap-1">
                 <Trash2 size={16} /> Clear
               </button>
             )}
           </div>
 
           {cart.length === 0 ? (
-            <div className="text-center py-8 text-gray-400">
+            <div className="text-center py-8 text-muted-foreground/60">
               <ShoppingCart size={48} className="mx-auto mb-2 opacity-50" />
               <p>Cart is empty</p>
             </div>
@@ -187,7 +187,7 @@ export default function POS() {
                   <div className="flex items-center gap-2 mt-2">
                     <button
                       onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                      className="w-7 h-7 bg-gray-200 rounded hover:bg-gray-300"
+                      className="w-7 h-7 bg-muted rounded hover:bg-muted/70"
                     >
                       -
                     </button>
@@ -195,23 +195,23 @@ export default function POS() {
                       type="number"
                       value={item.quantity}
                       onChange={(e) => updateQuantity(item.id, parseInt(e.target.value) || 0)}
-                      className="w-12 text-center border rounded py-1"
+                      className="w-12 text-center border border-border rounded py-1 bg-input-background"
                     />
                     <button
                       onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                      className="w-7 h-7 bg-gray-200 rounded hover:bg-gray-300"
+                      className="w-7 h-7 bg-muted rounded hover:bg-muted/70"
                     >
                       +
                     </button>
                     <div className="ml-auto font-semibold">₱{item.price * item.quantity}</div>
                   </div>
                   <div className="flex items-center gap-2 mt-2">
-                    <label className="text-xs text-gray-600">Discount:</label>
+                    <label className="text-xs text-muted-foreground">Discount:</label>
                     <input
                       type="number"
                       value={item.discount}
                       onChange={(e) => updateDiscount(item.id, parseFloat(e.target.value) || 0)}
-                      className="w-20 px-2 py-1 text-sm border rounded"
+                      className="w-20 px-2 py-1 text-sm border border-border rounded bg-input-background"
                       placeholder="0"
                     />
                   </div>
@@ -227,14 +227,14 @@ export default function POS() {
             <span className="font-semibold">₱{subtotal.toFixed(2)}</span>
           </div>
           {totalDiscount > 0 && (
-            <div className="flex justify-between text-red-600">
+            <div className="flex justify-between text-destructive">
               <span>Discount:</span>
               <span>-₱{totalDiscount.toFixed(2)}</span>
             </div>
           )}
           <div className="flex justify-between text-lg font-bold border-t pt-2">
             <span>Total:</span>
-            <span className="text-blue-600">₱{total.toFixed(2)}</span>
+            <span className="text-primary">₱{total.toFixed(2)}</span>
           </div>
         </div>
 
@@ -242,7 +242,7 @@ export default function POS() {
           <button
             onClick={() => setShowCheckout(true)}
             disabled={cart.length === 0}
-            className="w-full mt-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed font-semibold"
+            className="w-full mt-4 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 disabled:bg-muted disabled:cursor-not-allowed font-semibold"
           >
             Checkout
           </button>
@@ -250,25 +250,25 @@ export default function POS() {
           <div className="mt-4 space-y-2">
             <button
               onClick={() => handleCheckout('cash')}
-              className="w-full py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center justify-center gap-2"
+              className="w-full py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 flex items-center justify-center gap-2"
             >
               <Wallet size={20} /> Cash
             </button>
             <button
               onClick={() => handleCheckout('gcash')}
-              className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center justify-center gap-2"
+              className="w-full py-3 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/90 flex items-center justify-center gap-2"
             >
               <Smartphone size={20} /> GCash
             </button>
             <button
               onClick={() => handleCheckout('card')}
-              className="w-full py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 flex items-center justify-center gap-2"
+              className="w-full py-3 bg-[#562f00] text-[#fffdf1] rounded-lg hover:bg-[#4a2a00] flex items-center justify-center gap-2"
             >
               <CreditCard size={20} /> Card
             </button>
             <button
               onClick={() => setShowCheckout(false)}
-              className="w-full py-2 border rounded-lg hover:bg-gray-50"
+              className="w-full py-2 border border-border rounded-lg hover:bg-muted/40"
             >
               Cancel
             </button>

@@ -34,25 +34,25 @@ export default function Layout() {
   ];
 
   return (
-    <div className="flex h-screen bg-gray-50">
-      <aside className={`bg-blue-900 text-white transition-all duration-300 ${sidebarOpen ? 'w-64' : 'w-20'}`}>
-        <div className="flex items-center justify-between p-4 border-b border-blue-800">
+    <div className="flex h-screen bg-background">
+      <aside className={`bg-sidebar text-sidebar-foreground transition-all duration-300 ${sidebarOpen ? 'w-64' : 'w-20'}`}>
+        <div className="flex items-center justify-between p-4 border-b border-sidebar-border">
           {sidebarOpen ? (
             <div className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-                <Heart className="text-blue-600" size={20} fill="currentColor" />
+              <div className="w-10 h-10 bg-sidebar-primary-foreground rounded-lg flex items-center justify-center">
+                <Heart className="text-sidebar-primary" size={20} fill="currentColor" />
               </div>
               <div>
                 <h1 className="font-bold text-lg">PetShop POS</h1>
-                <p className="text-xs text-blue-200">Point of Sale</p>
+                <p className="text-xs text-sidebar-foreground/70">Point of Sale</p>
               </div>
             </div>
           ) : (
-            <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center mx-auto">
-              <Heart className="text-blue-600" size={20} fill="currentColor" />
+            <div className="w-10 h-10 bg-sidebar-primary-foreground rounded-lg flex items-center justify-center mx-auto">
+              <Heart className="text-sidebar-primary" size={20} fill="currentColor" />
             </div>
           )}
-          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 hover:bg-blue-800 rounded">
+          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 hover:bg-sidebar-accent/60 rounded">
             {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
@@ -66,7 +66,7 @@ export default function Layout() {
                 key={item.path}
                 to={item.path}
                 className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                  isActive ? 'bg-blue-700' : 'hover:bg-blue-800'
+                  isActive ? 'bg-sidebar-accent' : 'hover:bg-sidebar-accent/60'
                 }`}
               >
                 <Icon size={20} />
@@ -78,25 +78,25 @@ export default function Layout() {
       </aside>
 
       <main className="flex-1 overflow-auto">
-        <header className="bg-white border-b px-6 py-4">
+        <header className="bg-card border-b border-border px-6 py-4">
           <div className="flex justify-between items-center">
             <div>
-              <h2 className="text-2xl font-bold text-gray-800">
+              <h2 className="text-2xl font-bold text-foreground">
                 {navItems.find(item => item.path === location.pathname)?.label || 'POS / Sales'}
               </h2>
-              <p className="text-sm text-gray-500">{currentDate}</p>
+              <p className="text-sm text-muted-foreground">{currentDate}</p>
             </div>
             <div className="flex items-center gap-4">
               <div className="text-right">
-                <p className="text-sm text-gray-600">Logged in as</p>
+                <p className="text-sm text-muted-foreground">Logged in as</p>
                 <p className="font-semibold">{currentUser?.name} ({currentUser?.role})</p>
               </div>
-              <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
+              <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold">
                 {currentUser?.name.split(' ').map(n => n[0]).join('').toUpperCase()}
               </div>
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                className="flex items-center gap-2 px-4 py-2 text-destructive hover:bg-destructive/10 rounded-lg transition-colors"
               >
                 <LogOut size={18} />
                 <span className="text-sm font-medium">Logout</span>
