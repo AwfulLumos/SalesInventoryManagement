@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Search, AlertTriangle, Package, Calendar, TrendingDown, FileText } from 'lucide-react';
-import { products, purchaseOrders } from '../data/mockData';
+import { products, purchaseOrders } from '../../../shared/data/mockData';
 
 export default function Inventory() {
   const [searchQuery, setSearchQuery] = useState('');

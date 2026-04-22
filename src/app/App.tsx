@@ -1,6 +1,6 @@
 import { RouterProvider } from 'react-router';
 import { Toaster } from 'sonner';
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider } from '../features/auth/context/AuthContext';
 import { router } from './routes';
 
 export default function App() {

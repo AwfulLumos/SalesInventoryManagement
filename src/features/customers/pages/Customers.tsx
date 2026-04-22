@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Search, Users, Award, TrendingUp, Phone, Mail, MapPin, Calendar } from 'lucide-react';
-import { customers, transactions } from '../data/mockData';
+import { customers, transactions } from '../../../shared/data/mockData';
 
 export default function Customers() {
   const [searchQuery, setSearchQuery] = useState('');

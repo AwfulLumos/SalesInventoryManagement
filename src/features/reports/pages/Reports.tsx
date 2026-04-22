@@ -1,6 +1,6 @@
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { TrendingUp, TrendingDown, Package, DollarSign } from 'lucide-react';
-import { products, transactions } from '../data/mockData';
+import { products, transactions } from '../../../shared/data/mockData';
 
 export default function Reports() {
   const productSales = transactions.flatMap(t =>

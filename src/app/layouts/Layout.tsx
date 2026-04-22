@@ -1,7 +1,7 @@
 import { Outlet, Link, useLocation, useNavigate } from 'react-router';
 import { ShoppingCart, Package, Users, DollarSign, BarChart3, UserCog, Settings, Menu, X, LogOut, Heart } from 'lucide-react';
 import { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../features/auth/context/AuthContext';
 import { toast } from 'sonner';
 
 export default function Layout() {

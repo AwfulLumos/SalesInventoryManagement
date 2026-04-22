@@ -1,14 +1,14 @@
 import { createBrowserRouter, Navigate } from "react-router";
-import Layout from "./components/Layout";
-import ProtectedRoute from "./components/ProtectedRoute";
-import Login from "./pages/Login";
-import POS from "./pages/POS";
-import Inventory from "./pages/Inventory";
-import Customers from "./pages/Customers";
-import Financial from "./pages/Financial";
-import Reports from "./pages/Reports";
-import Users from "./pages/Users";
-import Settings from "./pages/Settings";
+import Layout from "./layouts/Layout";
+import ProtectedRoute from "../features/auth/components/ProtectedRoute";
+import Login from "../features/auth/pages/Login";
+import POS from "../features/pos/pages/POS";
+import Inventory from "../features/inventory/pages/Inventory";
+import Customers from "../features/customers/pages/Customers";
+import Financial from "../features/financial/pages/Financial";
+import Reports from "../features/reports/pages/Reports";
+import Users from "../features/users/pages/Users";
+import Settings from "../features/settings/pages/Settings";
 
 export const router = createBrowserRouter([
   {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { DollarSign, TrendingUp, TrendingDown, Wallet, CreditCard } from 'lucide-react';
-import { transactions, expenses } from '../data/mockData';
+import { transactions, expenses } from '../../../shared/data/mockData';
 
 export default function Financial() {
   const [periodFilter, setPeriodFilter] = useState<'today' | 'week' | 'month'>('today');

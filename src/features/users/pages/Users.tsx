@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { UserCog, Shield, User, Clock } from 'lucide-react';
-import { users, transactions } from '../data/mockData';
+import { users, transactions } from '../../../shared/data/mockData';
 
 export default function Users() {
   const [selectedUser, setSelectedUser] = useState<string | null>(null);

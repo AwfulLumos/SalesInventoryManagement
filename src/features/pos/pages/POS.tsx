@@ -1,6 +1,6 @@
 import { useState, useRef, type FormEvent } from 'react';
 import { Search, Scan, Trash2, CreditCard, Wallet, Smartphone, ShoppingCart } from 'lucide-react';
-import { products, customers, Product, Customer } from '../data/mockData';
+import { products, customers, Product, Customer } from '../../../shared/data/mockData';
 import { toast } from 'sonner';
 
 interface CartItem extends Product {
