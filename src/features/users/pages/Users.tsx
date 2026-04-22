@@ -1,141 +1,96 @@
 import { useState } from 'react';
-import { Clock, Shield, User, UserCog } from 'lucide-react';
+import { Clock, Shield, User, UserCog, CheckCircle } from 'lucide-react';
 import { transactions, users } from '../../../shared/data/mockData';
+
+const getRoleStyle = (role: string) => {
+  switch (role) {
+    case 'admin': return { badge: 'bg-[#562f00] text-[#fffdf1]', from: 'from-[#562f00]', to: 'to-[#3a1f00]', text: 'text-[#fffdf1]', icon: <Shield size={16} /> };
+    case 'manager': return { badge: 'bg-primary/15 text-primary', from: 'from-[#ff9644]', to: 'to-[#e07020]', text: 'text-[#fffdf1]', icon: <UserCog size={16} /> };
+    default: return { badge: 'bg-secondary/50 text-secondary-foreground', from: 'from-[#ffce99]', to: 'to-[#ff9644]', text: 'text-[#562f00]', icon: <User size={16} /> };
+  }
+};
+
+const getRolePermissions = (role: string) => {
+  const p = {
+    admin: ['Full system access', 'Manage users & roles', 'All financial reports', 'Manage inventory & pricing', 'Process refunds & voids', 'Configure system settings'],
+    manager: ['View financial reports', 'Manage inventory', 'Process transactions', 'View customer data', 'Generate reports', 'Manage purchase orders'],
+    cashier: ['Process transactions', 'View product catalog', 'Register customers', 'Apply discounts (limited)', 'Print receipts'],
+  };
+  return p[role as keyof typeof p] || [];
+};
+
+const fmtDate = (d: string) => new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
 export default function Users() {
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
 
-  const activeUsers = users.filter((user) => user.active).length;
-  const adminCount = users.filter((user) => user.role === 'admin').length;
-  const managerCount = users.filter((user) => user.role === 'manager').length;
+  const activeUsers = users.filter(u => u.active).length;
+  const adminCount = users.filter(u => u.role === 'admin').length;
+  const managerCount = users.filter(u => u.role === 'manager').length;
 
-  const getUserTransactions = (userId: string) => {
-    return transactions.filter((transaction) => transaction.cashierId === userId);
-  };
+  const getUserTransactions = (id: string) => transactions.filter(t => t.cashierId === id);
+  const selectedData = selectedUser ? users.find(u => u.id === selectedUser) : null;
+  const selectedTxns = selectedUser ? getUserTransactions(selectedUser) : [];
 
-  const getRoleColor = (role: string) => {
-    switch (role) {
-      case 'admin':
-        return 'bg-destructive/15 text-destructive';
-      case 'manager':
-        return 'bg-primary/15 text-primary';
-      case 'cashier':
-        return 'bg-secondary/40 text-secondary-foreground';
-      default:
-        return 'bg-muted text-muted-foreground';
-    }
-  };
-
-  const getRolePermissions = (role: string) => {
-    const permissions = {
-      admin: [
-        'Full system access',
-        'Manage users and roles',
-        'View all financial reports',
-        'Manage inventory and pricing',
-        'Process refunds and voids',
-        'Configure system settings',
-      ],
-      manager: [
-        'View financial reports',
-        'Manage inventory',
-        'Process transactions',
-        'View customer data',
-        'Generate reports',
-        'Manage purchase orders',
-      ],
-      cashier: [
-        'Process transactions',
-        'View product catalog',
-        'Register customers',
-        'Apply discounts (limited)',
-        'Print receipts',
-      ],
-    };
-
-    return permissions[role as keyof typeof permissions] || [];
-  };
-
-  const selectedUserData = selectedUser ? users.find((user) => user.id === selectedUser) : null;
-  const selectedUserTransactions = selectedUser ? getUserTransactions(selectedUser) : [];
+  const statCards = [
+    { label: 'Total Users', value: users.length, icon: <UserCog size={26} />, from: 'from-[#ffce99]', to: 'to-[#ff9644]', text: 'text-[#562f00]' },
+    { label: 'Active Users', value: activeUsers, icon: <User size={26} />, from: 'from-[#ff9644]', to: 'to-[#e07020]', text: 'text-[#fffdf1]' },
+    { label: 'Administrators', value: adminCount, icon: <Shield size={26} />, from: 'from-[#562f00]', to: 'to-[#3a1f00]', text: 'text-[#fffdf1]' },
+    { label: 'Managers', value: managerCount, icon: <UserCog size={26} />, from: 'from-[#ffce99]', to: 'to-[#ffb870]', text: 'text-[#562f00]' },
+  ];
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-        <div className="rounded-lg border border-border/60 bg-card p-4 shadow">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-muted-foreground">Total Users</p>
-              <p className="text-2xl font-bold">{users.length}</p>
-            </div>
-            <UserCog className="text-primary" size={32} />
-          </div>
-        </div>
 
-        <div className="rounded-lg border border-border/60 bg-card p-4 shadow">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-muted-foreground">Active Users</p>
-              <p className="text-2xl font-bold text-primary">{activeUsers}</p>
+      {/* Stat cards */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {statCards.map(c => (
+          <div key={c.label} className={`bg-gradient-to-br ${c.from} ${c.to} ${c.text} rounded-xl shadow-lg p-5`}>
+            <div className="flex items-center justify-between mb-1 opacity-90">
+              <p className="text-sm font-medium">{c.label}</p>
+              {c.icon}
             </div>
-            <User className="text-primary" size={32} />
+            <p className="text-3xl font-bold">{c.value}</p>
           </div>
-        </div>
-
-        <div className="rounded-lg border border-border/60 bg-card p-4 shadow">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-muted-foreground">Admins</p>
-              <p className="text-2xl font-bold text-destructive">{adminCount}</p>
-            </div>
-            <Shield className="text-destructive" size={32} />
-          </div>
-        </div>
-
-        <div className="rounded-lg border border-border/60 bg-card p-4 shadow">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-muted-foreground">Managers</p>
-              <p className="text-2xl font-bold text-primary">{managerCount}</p>
-            </div>
-            <UserCog className="text-primary" size={32} />
-          </div>
-        </div>
+        ))}
       </div>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <div className="rounded-lg border border-border/60 bg-card p-6 shadow">
-          <h3 className="mb-4 text-lg font-semibold">User Directory</h3>
-
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* User list */}
+        <div className="bg-card rounded-xl shadow border border-border/60 p-6">
+          <h3 className="font-semibold text-lg mb-4">User Directory</h3>
           <div className="space-y-2">
-            {users.map((user) => {
-              const userTransactions = getUserTransactions(user.id);
-              const totalSales = userTransactions.reduce((sum, transaction) => sum + transaction.total, 0);
-
+            {users.map(user => {
+              const rs = getRoleStyle(user.role);
+              const txns = getUserTransactions(user.id);
+              const totalSales = txns.reduce((s, t) => s + t.total, 0);
+              const isSelected = selectedUser === user.id;
               return (
-                <button
-                  key={user.id}
-                  onClick={() => setSelectedUser(user.id)}
-                  className={`w-full rounded-lg border p-4 text-left transition-colors ${
-                    selectedUser === user.id ? 'border-primary/50 bg-primary/10' : 'border-border hover:bg-muted/40'
-                  } ${!user.active ? 'opacity-50' : ''}`}
-                >
-                  <div className="mb-2 flex items-start justify-between">
-                    <div>
-                      <p className="font-semibold">{user.name}</p>
-                      <p className="text-sm text-muted-foreground">{user.email}</p>
+                <button key={user.id} onClick={() => setSelectedUser(user.id)}
+                  className={`w-full text-left rounded-xl border p-4 transition-all duration-150 ${isSelected ? 'border-primary/50 bg-primary/10 shadow-sm' : 'border-border/60 hover:bg-muted/30 hover:border-border'
+                    } ${!user.active ? 'opacity-50' : ''}`}>
+                  <div className="flex items-start gap-3">
+                    {/* Avatar */}
+                    <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${rs.from} ${rs.to} ${rs.text} flex items-center justify-center font-bold text-sm flex-shrink-0 shadow-sm`}>
+                      {user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)}
                     </div>
-                    <span className={`rounded-full px-3 py-1 text-xs font-medium ${getRoleColor(user.role)}`}>
-                      {user.role.toUpperCase()}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className={`${user.active ? 'text-primary' : 'text-destructive'} font-medium`}>
-                      {user.active ? 'Active' : 'Inactive'}
-                    </span>
-                    <span className="text-muted-foreground">
-                      {userTransactions.length} transactions • P{totalSales.toFixed(0)}
-                    </span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-2">
+                        <div>
+                          <p className="font-semibold text-sm">{user.name}</p>
+                          <p className="text-xs text-muted-foreground">{user.email}</p>
+                        </div>
+                        <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold flex-shrink-0 ${rs.badge}`}>
+                          {user.role.toUpperCase()}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between mt-1.5 text-xs">
+                        <span className={user.active ? 'text-[#1a5c1e] font-medium' : 'text-destructive font-medium'}>
+                          {user.active ? '● Active' : '○ Inactive'}
+                        </span>
+                        <span className="text-muted-foreground">{txns.length} txns · ₱{totalSales.toFixed(0)}</span>
+                      </div>
+                    </div>
                   </div>
                 </button>
               );
@@ -143,166 +98,126 @@ export default function Users() {
           </div>
         </div>
 
-        <div className="rounded-lg border border-border/60 bg-card p-6 shadow">
-          {selectedUserData ? (
-            <div>
-              <h3 className="mb-4 text-lg font-semibold">User Details</h3>
-
-              <div className="mb-6 space-y-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-muted-foreground">Full Name</p>
-                    <p className="text-lg font-semibold">{selectedUserData.name}</p>
-                  </div>
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-xl font-bold text-primary-foreground">
-                    {selectedUserData.name
-                      .split(' ')
-                      .map((namePart) => namePart[0])
-                      .join('')}
-                  </div>
-                </div>
-
-                <div>
-                  <p className="text-sm text-muted-foreground">Email Address</p>
-                  <p className="font-semibold">{selectedUserData.email}</p>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <p className="text-sm text-muted-foreground">Role</p>
-                    <span className={`inline-block rounded-full px-3 py-1 text-sm font-medium ${getRoleColor(selectedUserData.role)}`}>
-                      {selectedUserData.role.toUpperCase()}
-                    </span>
+        {/* User detail */}
+        <div className="bg-card rounded-xl shadow border border-border/60 p-6">
+          {selectedData ? (() => {
+            const rs = getRoleStyle(selectedData.role);
+            const perms = getRolePermissions(selectedData.role);
+            return (
+              <div>
+                {/* Header */}
+                <div className="flex items-center gap-4 mb-6">
+                  <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${rs.from} ${rs.to} ${rs.text} flex items-center justify-center text-2xl font-bold shadow-md`}>
+                    {selectedData.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)}
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground">Status</p>
-                    <span
-                      className={`inline-block rounded-full px-3 py-1 text-sm font-medium ${
-                        selectedUserData.active
-                          ? 'bg-secondary/40 text-secondary-foreground'
-                          : 'bg-destructive/15 text-destructive'
-                      }`}
-                    >
-                      {selectedUserData.active ? 'Active' : 'Inactive'}
+                    <h3 className="font-bold text-xl">{selectedData.name}</h3>
+                    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-semibold mt-1 ${rs.badge}`}>
+                      {rs.icon} {selectedData.role.toUpperCase()}
                     </span>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <p className="flex items-center gap-1 text-sm text-muted-foreground">
-                      <Clock size={14} /> Created Date
-                    </p>
-                    <p className="font-semibold">{new Date(selectedUserData.createdDate).toLocaleDateString()}</p>
+                {/* Info grid */}
+                <div className="grid grid-cols-2 gap-3 mb-4">
+                  <div className="bg-muted/30 rounded-lg p-3 col-span-2">
+                    <p className="text-xs text-muted-foreground mb-0.5">Email</p>
+                    <p className="font-semibold text-sm">{selectedData.email}</p>
                   </div>
-                  <div>
-                    <p className="flex items-center gap-1 text-sm text-muted-foreground">
-                      <Clock size={14} /> Last Login
-                    </p>
-                    <p className="font-semibold">
-                      {selectedUserData.lastLogin ? new Date(selectedUserData.lastLogin).toLocaleDateString() : 'Never'}
-                    </p>
+                  <div className="bg-muted/30 rounded-lg p-3">
+                    <p className="text-xs text-muted-foreground flex items-center gap-1 mb-0.5"><Clock size={11} /> Created</p>
+                    <p className="font-semibold text-sm">{fmtDate(selectedData.createdDate)}</p>
+                  </div>
+                  <div className="bg-muted/30 rounded-lg p-3">
+                    <p className="text-xs text-muted-foreground flex items-center gap-1 mb-0.5"><Clock size={11} /> Last Login</p>
+                    <p className="font-semibold text-sm">{selectedData.lastLogin ? fmtDate(selectedData.lastLogin) : 'Never'}</p>
+                  </div>
+                  <div className="bg-muted/30 rounded-lg p-3">
+                    <p className="text-xs text-muted-foreground mb-0.5">Status</p>
+                    <span className={`text-sm font-semibold ${selectedData.active ? 'text-[#1a5c1e]' : 'text-destructive'}`}>
+                      {selectedData.active ? '● Active' : '○ Inactive'}
+                    </span>
+                  </div>
+                  <div className="bg-muted/30 rounded-lg p-3">
+                    <p className="text-xs text-muted-foreground mb-0.5">Transactions</p>
+                    <p className="font-semibold text-sm">{selectedTxns.length}</p>
                   </div>
                 </div>
 
-                <div className="rounded-lg border border-border bg-muted/40 p-4">
-                  <p className="mb-2 flex items-center gap-2 font-semibold">
-                    <Shield size={16} /> Role Permissions
+                {/* Permissions */}
+                <div className="bg-muted/20 border border-border/50 rounded-xl p-4 mb-4">
+                  <p className="font-semibold text-sm mb-2 flex items-center gap-2">
+                    <Shield size={15} className="text-primary" /> Role Permissions
                   </p>
-                  <ul className="space-y-1 text-sm">
-                    {getRolePermissions(selectedUserData.role).map((permission, index) => (
-                      <li key={index} className="flex items-center gap-2">
-                        <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-                        {permission}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              <div className="border-t border-border pt-4">
-                <h4 className="mb-3 flex justify-between font-semibold">
-                  <span>Activity Log</span>
-                  <span className="text-sm font-normal text-muted-foreground">
-                    {selectedUserTransactions.length} transactions
-                  </span>
-                </h4>
-                {selectedUserTransactions.length > 0 ? (
-                  <div className="max-h-[300px] space-y-2 overflow-y-auto">
-                    {selectedUserTransactions.map((transaction) => (
-                      <div key={transaction.id} className="rounded-lg border border-border p-3 text-sm">
-                        <div className="mb-1 flex items-start justify-between">
-                          <div>
-                            <p className="font-semibold">{transaction.id}</p>
-                            <p className="text-xs text-muted-foreground">{new Date(transaction.date).toLocaleString()}</p>
-                          </div>
-                          <p className="font-bold text-primary">P{transaction.total.toFixed(2)}</p>
-                        </div>
-                        <div className="flex items-center justify-between text-xs text-muted-foreground">
-                          <span>{transaction.items.length} items</span>
-                          <span className="rounded bg-muted px-2 py-1 capitalize">{transaction.paymentMethod}</span>
-                        </div>
+                  <div className="grid grid-cols-1 gap-1">
+                    {perms.map((p, i) => (
+                      <div key={i} className="flex items-center gap-2 text-sm">
+                        <CheckCircle size={13} className="text-primary flex-shrink-0" />
+                        <span>{p}</span>
                       </div>
                     ))}
                   </div>
-                ) : (
-                  <p className="py-8 text-center text-sm text-muted-foreground">No transaction history</p>
-                )}
+                </div>
+
+                {/* Activity log */}
+                <div className="border-t border-border/50 pt-4">
+                  <h4 className="font-semibold text-sm mb-3">Recent Activity</h4>
+                  {selectedTxns.length > 0 ? (
+                    <div className="space-y-2 max-h-[200px] overflow-y-auto">
+                      {selectedTxns.map(t => (
+                        <div key={t.id} className="border border-border/50 rounded-lg p-3 hover:bg-muted/20 transition-colors text-sm">
+                          <div className="flex justify-between items-start">
+                            <div>
+                              <p className="font-semibold">{t.id}</p>
+                              <p className="text-xs text-muted-foreground">{new Date(t.date).toLocaleDateString()}</p>
+                            </div>
+                            <p className="font-bold text-primary">₱{t.total.toFixed(2)}</p>
+                          </div>
+                          <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                            <span>{t.items.length} items</span>
+                            <span className="px-2 py-0.5 bg-muted rounded-full capitalize">{t.paymentMethod}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-muted-foreground/60 py-4 text-center">No transactions recorded</p>
+                  )}
+                </div>
               </div>
-            </div>
-          ) : (
-            <div className="flex h-full flex-col items-center justify-center text-muted-foreground/60">
-              <UserCog size={64} className="mb-4 opacity-50" />
-              <p>Select a user to view details</p>
+            );
+          })() : (
+            <div className="flex flex-col items-center justify-center h-full text-muted-foreground/50 py-20">
+              <UserCog size={56} className="mb-4 opacity-30 animate-float-slow" />
+              <p className="font-medium">Select a user</p>
+              <p className="text-sm mt-1">to view their profile</p>
             </div>
           )}
         </div>
       </div>
 
-      <div className="rounded-lg border border-border/60 bg-card p-6 shadow">
-        <h3 className="mb-4 text-lg font-semibold">Role Descriptions</h3>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          <div className="rounded-lg border border-border p-4">
-            <div className="mb-3 flex items-center gap-2">
-              <Shield className="text-destructive" size={24} />
-              <h4 className="font-semibold text-destructive">Administrator</h4>
-            </div>
-            <p className="mb-3 text-sm text-muted-foreground">
-              Full system control with unrestricted access to all features and sensitive data.
-            </p>
-            <div className="text-xs text-muted-foreground/80">
-              <p className="mb-1 font-medium">Typical users:</p>
-              <p>Business owners, IT administrators</p>
-            </div>
-          </div>
-
-          <div className="rounded-lg border border-border p-4">
-            <div className="mb-3 flex items-center gap-2">
-              <UserCog className="text-primary" size={24} />
-              <h4 className="font-semibold text-primary">Manager</h4>
-            </div>
-            <p className="mb-3 text-sm text-muted-foreground">
-              Can manage daily operations, inventory, and view business reports.
-            </p>
-            <div className="text-xs text-muted-foreground/80">
-              <p className="mb-1 font-medium">Typical users:</p>
-              <p>Store managers, supervisors</p>
-            </div>
-          </div>
-
-          <div className="rounded-lg border border-border p-4">
-            <div className="mb-3 flex items-center gap-2">
-              <User className="text-secondary-foreground" size={24} />
-              <h4 className="font-semibold text-secondary-foreground">Cashier</h4>
-            </div>
-            <p className="mb-3 text-sm text-muted-foreground">
-              Limited to point-of-sale operations and basic customer management.
-            </p>
-            <div className="text-xs text-muted-foreground/80">
-              <p className="mb-1 font-medium">Typical users:</p>
-              <p>Sales staff, front desk employees</p>
-            </div>
-          </div>
+      {/* Role descriptions */}
+      <div className="bg-card rounded-xl shadow border border-border/60 p-6">
+        <h3 className="font-semibold text-lg mb-5">Role Overview</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {[
+            { role: 'admin', title: 'Administrator', desc: 'Full system control with unrestricted access to all features and sensitive data.', typical: 'Business owners, IT administrators' },
+            { role: 'manager', title: 'Manager', desc: 'Can manage daily operations, inventory, and view business reports.', typical: 'Store managers, supervisors' },
+            { role: 'cashier', title: 'Cashier', desc: 'Limited to point-of-sale operations and basic customer management.', typical: 'Sales staff, front desk employees' },
+          ].map(r => {
+            const rs = getRoleStyle(r.role);
+            return (
+              <div key={r.role} className={`bg-gradient-to-br ${rs.from} ${rs.to} ${rs.text} rounded-xl p-5 shadow-md`}>
+                <div className="flex items-center gap-2 mb-3">
+                  {rs.icon}
+                  <h4 className="font-bold">{r.title}</h4>
+                </div>
+                <p className="text-sm opacity-80 mb-3">{r.desc}</p>
+                <p className="text-xs opacity-60 font-medium">Typical users:</p>
+                <p className="text-xs opacity-75">{r.typical}</p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
