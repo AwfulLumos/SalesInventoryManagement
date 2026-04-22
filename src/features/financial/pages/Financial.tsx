@@ -64,24 +64,24 @@ export default function Financial() {
           </p>
         </div>
 
-        <div className="bg-gradient-to-br from-primary to-[#562f00] text-primary-foreground rounded-lg shadow-lg p-6">
+        <div className="bg-gradient-to-br from-[#ffce99] to-[#ff9644] text-[#562f00] rounded-lg shadow-lg p-6">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-primary-foreground/80">Total Expenses</p>
+            <p className="text-[#562f00]/80">Total Expenses</p>
             <TrendingDown size={24} />
           </div>
           <p className="text-3xl font-bold">₱{totalExpenses.toFixed(2)}</p>
-          <p className="text-sm text-primary-foreground/80 mt-1">
+          <p className="text-sm text-[#562f00]/70 mt-1">
             {filteredExpenses.length} expense entries
           </p>
         </div>
 
-        <div className={`bg-gradient-to-br ${netProfit >= 0 ? 'from-secondary to-primary text-foreground' : 'from-primary to-[#562f00] text-primary-foreground'} rounded-lg shadow-lg p-6`}>
+        <div className={`bg-gradient-to-br ${netProfit >= 0 ? 'from-secondary to-primary text-[#562f00]' : 'from-[#ffce99] to-[#ff9644] text-[#562f00]'} rounded-lg shadow-lg p-6`}>
           <div className="flex items-center justify-between mb-2">
-            <p className={netProfit >= 0 ? 'text-foreground/80' : 'text-primary-foreground/80'}>Net Profit</p>
+            <p className="text-[#562f00]/80">Net Profit</p>
             <DollarSign size={24} />
           </div>
           <p className="text-3xl font-bold">₱{netProfit.toFixed(2)}</p>
-          <p className={netProfit >= 0 ? 'text-foreground/80 mt-1' : 'text-primary-foreground/80 mt-1'}>
+          <p className="text-[#562f00]/80 mt-1">
             Margin: {totalSales > 0 ? ((netProfit / totalSales) * 100).toFixed(1) : 0}%
           </p>
         </div>

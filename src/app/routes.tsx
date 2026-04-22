@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from "react-router";
 import Layout from "./layouts/Layout";
 import ProtectedRoute from "../features/auth/components/ProtectedRoute";
 import Login from "../features/auth/pages/Login";
+import Logout from "../features/auth/pages/Logout";
 import POS from "../features/pos/pages/POS";
 import Inventory from "../features/inventory/pages/Inventory";
 import Customers from "../features/customers/pages/Customers";
@@ -14,6 +15,10 @@ export const router = createBrowserRouter([
   {
     path: "/login",
     Component: Login,
+  },
+  {
+    path: "/logout",
+    Component: Logout,
   },
   {
     path: "/",

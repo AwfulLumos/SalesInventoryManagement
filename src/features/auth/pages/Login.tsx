@@ -30,7 +30,7 @@ export default function Login() {
     const success = login(email, password);
     if (success) {
       toast.success('Login successful!');
-      navigate('/');
+      // Navigation handled automatically after isLoggingIn resolves
     } else {
       setError('Invalid email or password. Please try again.');
       toast.error('Login failed');
@@ -44,7 +44,7 @@ export default function Login() {
       const success = login(userEmail, userPassword);
       if (success) {
         toast.success('Login successful!');
-        navigate('/');
+        // Navigation handled automatically after isLoggingIn resolves
       }
     }, 100);
   };
@@ -58,27 +58,27 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex">
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-[#ffce99] via-[#ff9644] to-[#562f00] p-12 flex-col justify-between relative overflow-hidden text-[#fffdf1]">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[#ffce99]/35 rounded-full blur-3xl -mr-48 -mt-48 animate-float-slow"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#ff9644]/30 rounded-full blur-3xl -ml-48 -mb-48 animate-float-slower"></div>
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-[#ffce99] to-[#ff9644] p-12 flex-col justify-between relative overflow-hidden text-[#562f00]">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#fffdf1]/30 rounded-full blur-3xl -mr-48 -mt-48 animate-float-slow"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#562f00]/10 rounded-full blur-3xl -ml-48 -mb-48 animate-float-slower"></div>
 
         <div className="relative z-10 animate-fade-up">
           <div className="flex items-center gap-3 mb-8">
-            <div className="w-16 h-16 bg-[#fffdf1] rounded-2xl flex items-center justify-center shadow-lg">
-              <Heart className="text-[#ff9644]" size={32} fill="currentColor" />
+            <div className="w-16 h-16 bg-[#562f00]/10 border border-[#562f00]/20 rounded-2xl flex items-center justify-center shadow-lg">
+              <Heart className="text-[#562f00]" size={32} fill="currentColor" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-[#fffdf1]">PetShop POS</h1>
-              <p className="text-[#fffdf1]/80 text-sm">Point of Sale System</p>
+              <h1 className="text-3xl font-bold text-[#562f00]">PetShop POS</h1>
+              <p className="text-[#562f00]/75 text-sm">Point of Sale System</p>
             </div>
           </div>
 
           <div className="space-y-6 mt-12">
             <div>
-              <h2 className="text-4xl font-bold text-[#fffdf1] leading-tight mb-4">
+              <h2 className="text-4xl font-bold text-[#562f00] leading-tight mb-4">
                 Manage Your Pet Supply Business with Ease
               </h2>
-              <p className="text-[#fffdf1]/80 text-lg">
+              <p className="text-[#562f00]/75 text-lg">
                 Complete POS solution designed specifically for pet stores. Track inventory, manage customers, and grow your business.
               </p>
             </div>
@@ -87,13 +87,13 @@ export default function Login() {
               {features.map((feature, index) => {
                 const Icon = feature.icon;
                 return (
-                  <div key={index} className="flex items-start gap-4 bg-[#fffdf1]/12 backdrop-blur-sm rounded-xl p-4 border border-[#fffdf1]/25">
-                    <div className="w-10 h-10 bg-[#fffdf1]/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <Icon className="text-[#fffdf1]" size={20} />
+                  <div key={index} className="flex items-start gap-4 bg-[#562f00]/08 backdrop-blur-sm rounded-xl p-4 border border-[#562f00]/20">
+                    <div className="w-10 h-10 bg-[#562f00]/12 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Icon className="text-[#562f00]" size={20} />
                     </div>
                     <div>
-                      <h3 className="text-[#fffdf1] font-semibold">{feature.title}</h3>
-                      <p className="text-[#fffdf1]/70 text-sm">{feature.desc}</p>
+                      <h3 className="text-[#562f00] font-semibold">{feature.title}</h3>
+                      <p className="text-[#562f00]/70 text-sm">{feature.desc}</p>
                     </div>
                   </div>
                 );
@@ -103,7 +103,7 @@ export default function Login() {
         </div>
 
         <div className="relative z-10 animate-fade-up">
-          <div className="flex items-center gap-8 text-[#fffdf1]/80">
+          <div className="flex items-center gap-8 text-[#562f00]/80">
             <div className="flex items-center gap-2">
               <CheckCircle size={16} />
               <span className="text-sm">Secure & Reliable</span>

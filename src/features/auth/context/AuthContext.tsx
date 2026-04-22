@@ -4,6 +4,7 @@ import { users } from '../../../shared/data/mockData';
 interface AuthContextType {
   currentUser: typeof users[0] | null;
   isInitializing: boolean;
+  isLoggingIn: boolean;
   login: (email: string, password: string) => boolean;
   logout: () => void;
 }
@@ -19,10 +20,12 @@ const SAMPLE_CREDENTIALS = [
 
 const AUTH_STORAGE_KEY = 'sim.auth.userId';
 const MIN_BOOT_SCREEN_MS = 1100;
+const LOGIN_LOADING_MS = 1400;
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [currentUser, setCurrentUser] = useState<typeof users[0] | null>(null);
   const [isInitializing, setIsInitializing] = useState(true);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   useEffect(() => {
     const startedAt = Date.now();
@@ -54,8 +57,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (credentials) {
       const user = users.find(u => u.id === credentials.userId);
       if (user && user.active) {
-        setCurrentUser(user);
-        window.localStorage.setItem(AUTH_STORAGE_KEY, user.id);
+        setIsLoggingIn(true);
+        window.setTimeout(() => {
+          setCurrentUser(user);
+          window.localStorage.setItem(AUTH_STORAGE_KEY, user.id);
+          setIsLoggingIn(false);
+        }, LOGIN_LOADING_MS);
         return true;
       }
     }
@@ -68,7 +75,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ currentUser, isInitializing, login, logout }}>
+    <AuthContext.Provider value={{ currentUser, isInitializing, isLoggingIn, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

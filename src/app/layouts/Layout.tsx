@@ -2,18 +2,15 @@ import { Outlet, Link, useLocation, useNavigate } from 'react-router';
 import { ShoppingCart, Package, Users, DollarSign, BarChart3, UserCog, Settings, Menu, X, LogOut, Heart } from 'lucide-react';
 import { useState } from 'react';
 import { useAuth } from '../../features/auth/context/AuthContext';
-import { toast } from 'sonner';
 
 export default function Layout() {
   const location = useLocation();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const { currentUser, logout } = useAuth();
+  const { currentUser } = useAuth();
 
   const handleLogout = () => {
-    logout();
-    toast.success('Logged out successfully');
-    navigate('/login');
+    navigate('/logout');
   };
 
   const currentDate = new Date().toLocaleDateString('en-US', {
@@ -39,17 +36,13 @@ export default function Layout() {
         <div className="flex items-center justify-between p-4 border-b border-sidebar-border">
           {sidebarOpen ? (
             <div className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-sidebar-primary-foreground rounded-lg flex items-center justify-center">
-                <Heart className="text-sidebar-primary" size={20} fill="currentColor" />
-              </div>
               <div>
                 <h1 className="font-bold text-lg">PetShop POS</h1>
                 <p className="text-xs text-sidebar-foreground/70">Point of Sale</p>
               </div>
             </div>
           ) : (
-            <div className="w-10 h-10 bg-sidebar-primary-foreground rounded-lg flex items-center justify-center mx-auto">
-              <Heart className="text-sidebar-primary" size={20} fill="currentColor" />
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center mx-auto">
             </div>
           )}
           <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 hover:bg-sidebar-accent/60 rounded">
@@ -65,9 +58,8 @@ export default function Layout() {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                  isActive ? 'bg-sidebar-accent' : 'hover:bg-sidebar-accent/60'
-                }`}
+                className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive ? 'bg-sidebar-accent' : 'hover:bg-sidebar-accent/60'
+                  }`}
               >
                 <Icon size={20} />
                 {sidebarOpen && <span>{item.label}</span>}
@@ -105,7 +97,7 @@ export default function Layout() {
           </div>
         </header>
 
-        <div className="p-6">
+        <div key={location.pathname} className="p-6 animate-fade-up" style={{ animationDuration: '400ms', animationFillMode: 'both' }}>
           <Outlet />
         </div>
       </main>
