@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Search, AlertTriangle, Package, Calendar, TrendingDown, FileText, ChevronDown, ChevronUp } from 'lucide-react';
+import { Search, AlertTriangle, Package, Calendar, TrendingDown, FileText, ChevronDown, ChevronUp, Plus } from 'lucide-react';
 import { products, purchaseOrders } from '../../../shared/data/mockData';
+import { AddProductModal } from '../components/AddProductModal';
 
 export default function Inventory() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -8,6 +9,7 @@ export default function Inventory() {
   const [stockFilter, setStockFilter] = useState<string>('all');
   const [sortField, setSortField] = useState<'name' | 'stock' | 'price'>('name');
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc');
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   const toggleSort = (field: typeof sortField) => {
     if (sortField === field) setSortDir(d => d === 'asc' ? 'desc' : 'asc');
@@ -110,6 +112,12 @@ export default function Inventory() {
             <option value="low">Low Stock Only</option>
             <option value="out">Out of Stock Only</option>
           </select>
+          <button 
+            onClick={() => setIsAddModalOpen(true)}
+            className="flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-[#ffce99] to-[#ff9644] text-[#562f00] hover:from-[#ffb870] hover:to-[#e07020] font-semibold rounded-lg shadow-sm transition-all text-sm whitespace-nowrap">
+            <Plus size={18} />
+            Add New Item
+          </button>
         </div>
 
         <div className="overflow-x-auto">
@@ -218,6 +226,12 @@ export default function Inventory() {
           ))}
         </div>
       </div>
+
+      {/* Add New Item Modal */}
+      <AddProductModal 
+        isOpen={isAddModalOpen} 
+        onClose={() => setIsAddModalOpen(false)} 
+      />
     </div>
   );
 }
